@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pth
+*.zip
+/data/
+/ckpt/
+runs.csv
+/out*/
+_local_weights/
+_to_delete/
+.pytest_cache/

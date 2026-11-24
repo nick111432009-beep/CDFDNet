@@ -1,0 +1,45 @@
+# Shared defaults (not run directly). Child configs override only what differs.
+name: _base
+
+model:
+  in_chans: 3
+  out_chans: 3
+  embed_dims: [32, 64, 128]
+  depths: [8, 12, 16]
+  detail_conv: true        # training form; folded to standard convolutions for deployment
+  fm_stages: [2]           # frequency modulation in the deepest stage only
+  big_kernel: 7
+  strip: 11
+
+data:
+  name: RESIDE-IN
+  root: data/RESIDE-IN     # <root>/{train,test}/{GT,hazy}
+  train_sub: train
+  test_sub: test
+  patch_size: 256
+  edge_decay: 0.1
+  only_h_flip: false
+  num_workers: 2
+
+train:
+  batch_size: 16
+  epochs: 1500
+  lr: 2.0e-4
+  eta_min_ratio: 0.01      # cosine schedule down to 1% of lr
+  amp: true
+  seed: 42
+  eval_freq: 1
+  save_every_epoch: true
+
+loss:
+  l1_weight: 1.0
+  fft_l1_weight: 0.1                                    # frequency-domain loss weight (lambda_f)
+  contrast_weight: 0.1                                  # uniform contrastive loss weight (lambda_c)
+  contrast_layer_weights: [0.359375, 0.359375, 0.359375, 0.359375]
+
+eval:
+  ssim_down_ratio: true
+
+io:
+  ckpt_dir: ckpt
+  run_log: runs.csv

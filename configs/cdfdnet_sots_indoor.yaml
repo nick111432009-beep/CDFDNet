@@ -1,0 +1,4 @@
+# CDFDNet on RESIDE ITS (train) / SOTS-Indoor (test).
+# Protocol: batch 16, 256x256 random crops, AdamW 2e-4 with cosine decay, 1500 epochs, AMP.
+_base: _base.yaml
+name: cdfdnet_sots_indoor

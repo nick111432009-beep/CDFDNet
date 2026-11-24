@@ -1,0 +1,20 @@
+# CDFDNet on I-HAZE (25 training / 5 test pairs; images 31-35 are the test split).
+# Protocol: batch 8, 256x256 random crops, AdamW 2e-4 with cosine decay, 8000 epochs.
+# Validation during training uses a central 256x256 crop (full-resolution images
+# do not fit in GPU memory); report test numbers with scripts/infer.py
+# (--tile 1024 --overlap 128 --center-crop 256).
+_base: _base.yaml
+name: cdfdnet_ihaze
+
+data:
+  name: I-HAZE
+  root: data/I-HAZE        # <root>/{train,test}/{GT,hazy}, e.g. 01_indoor.jpg ... 35_indoor.jpg
+  num_workers: 2
+  cache: true
+  val_center_crop: true
+
+train:
+  batch_size: 8
+  epochs: 8000
+  eval_freq: 1
+  save_every_epoch: false  # only the best checkpoint is kept (3 steps per epoch)
